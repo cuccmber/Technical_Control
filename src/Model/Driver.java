@@ -13,7 +13,7 @@ public class Driver {
     private String address;
     private Date birthday;
     private String sex;
-    private Inspector inspector;
+    private int inspectorID;
 
     public void setCarID(int carID) {
         this.carID = carID;
@@ -95,11 +95,11 @@ public class Driver {
         return sex;
     }
 
-    public void setInspector(Inspector inspector){
-        this.inspector = inspector;
+    public void setInspectorID(int inspectorID){
+        this.inspectorID = inspectorID;
     }
 
-    public Inspector getInspector() {
-        return inspector;
+    public int getInspectorID() {
+        return inspectorID;
     }
 }

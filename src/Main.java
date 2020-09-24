@@ -1,7 +1,5 @@
-import Model.DriverDataBase;
-import View.Window;
-
-import java.util.ArrayList;
+import Model.DataBase;
+import Model.Query;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,8 +7,8 @@ public class Main {
         //Window window = new Window();
         //window.showWindow();
 
-        DriverDataBase db = new DriverDataBase();
-        db.createQuery();
+        DataBase db = new DataBase();
+        db.createQuery(Query.countCars);
     }
 
 }

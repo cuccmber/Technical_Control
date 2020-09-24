@@ -24,8 +24,8 @@ public class Window {
         Button checkupButton = new Button(mainShell, SWT.PUSH);
         checkupButton.setText("Show Check Up Data");
 
-        Label checkupLabel = new Label(mainShell, SWT.NONE);
-        checkupLabel.setText("Calculate how many cars completed check up (grouped by days)");
+        Label countCarsLabel = new Label(mainShell, SWT.NONE);
+        countCarsLabel.setText("Calculate how many cars completed check up (grouped by days)");
         Button countCarsButton = new Button(mainShell, SWT.PUSH);
         countCarsButton.setText("Calculate");
 

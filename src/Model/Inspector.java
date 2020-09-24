@@ -4,7 +4,7 @@ public class Inspector {
     int inspectorID; //primary key
     String fullName;
     String post;
-    String rank;
+    String inspectorRank;
     //boolean result;
 
     public void setInspectorID(int inspectorID) {
@@ -31,11 +31,11 @@ public class Inspector {
         return post;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setInspectorRank(String rank) {
+        this.inspectorRank = rank;
     }
 
-    public String getRank() {
-        return rank;
+    public String getInspectorRankRank() {
+        return inspectorRank;
     }
 }
