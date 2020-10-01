@@ -13,8 +13,7 @@ public class DataBase {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public void createQuery(String query){
-        //String query = "select distinct count(carID) from checkup where result = 1";
+    public ResultSet createQuery(String query){
 
         try {
             // opening database connection to MySQL server
@@ -26,20 +25,45 @@ public class DataBase {
             // executing SELECT query
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-                int date = resultSet.getInt(1);
-                int count = resultSet.getInt(2);
-                System.out.println(date + " " + count);
-            }
+
+            //while (resultSet.next()) {
+            //    int date = resultSet.getInt(1);
+            //    int count = resultSet.getInt(2);
+            //    System.out.println(date + " " + count);
+            //}
 
         } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         } finally {
-            //close connection ,stmt and resultset here
+            //close connection, stmt and resultset here                                      WHERE SHOULD I CLOSE???
+            //try { connection.close(); } catch(SQLException se) { /*can't do anything */ }
+            //try { statement.close(); } catch(SQLException se) { /*can't do anything */ }
+            //try { resultSet.close(); } catch(SQLException se) { /*can't do anything */ }
+        }
+
+        return resultSet;
+    }
+
+    public void executeQuery(String query){
+        try {
+            // opening database connection to MySQL server
+            connection = DriverManager.getConnection(url, user, password);
+
+            // getting Statement object to execute query
+            statement = connection.createStatement();
+
+            // executing INSERT query
+            statement.executeUpdate(query);
+
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        } finally {
+            //close connection, stmt and resultset here
             try { connection.close(); } catch(SQLException se) { /*can't do anything */ }
             try { statement.close(); } catch(SQLException se) { /*can't do anything */ }
             try { resultSet.close(); } catch(SQLException se) { /*can't do anything */ }
         }
+
     }
 
 }
