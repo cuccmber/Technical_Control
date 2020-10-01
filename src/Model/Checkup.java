@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Date;
 
-public class CheckUp {
+public class Checkup {
     private Date date;
     private boolean result;
     private int checkupID; //primary key

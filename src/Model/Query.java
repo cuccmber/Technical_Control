@@ -54,6 +54,7 @@ public class Query {
             int inspectorID = resultSet.getInt(2);
             String post = resultSet.getString(3);
             String inspectorRank = resultSet.getString(4);
+            System.out.println(fullName + inspectorID + post + inspectorRank);
         }
     }
     public static void printCountCars(ResultSet resultSet) throws SQLException {

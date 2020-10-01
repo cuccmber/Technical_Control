@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.CheckUp;
+import Model.Checkup;
 import Model.Driver;
 import Model.Inspector;
 
@@ -11,7 +11,7 @@ public class Controller {
 
     private ArrayList<Driver> drivers;
     private ArrayList<Inspector> inspectors;
-    private ArrayList<CheckUp> checkups;
+    private ArrayList<Checkup> checkups;
 
     public void addDriver(int carID, int engineID, String color, String brand, int technicalPassportID,
                           int licenceID, String fullName, String address, Date birthday, String sex, int inspectorID){
@@ -46,7 +46,7 @@ public class Controller {
     public void removeInspector(){};
 
     public void addCheckup(Date date, boolean result, int checkupID){
-        CheckUp checkup = new CheckUp();
+        Checkup checkup = new Checkup();
         checkup.setDate(date);
         checkup.setResult(result);
         checkup.setCheckupID(checkupID);

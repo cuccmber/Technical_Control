@@ -1,6 +1,8 @@
 package View;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
@@ -18,22 +20,61 @@ public class MainWindow {
         Group queryGroup = new Group(mainShell, SWT.NONE);
         queryGroup.setLayout(verticalLayout);
 
-        Button driverButton = new Button(viewAddRemoveGroup, SWT.PUSH);
+        Button driverButton = new Button(viewAddRemoveGroup, SWT.RADIO);
         driverButton.setText("Show Driver Data");
 
-        Button inspectorButton = new Button(viewAddRemoveGroup, SWT.PUSH);
+        Button inspectorButton = new Button(viewAddRemoveGroup, SWT.RADIO);
         inspectorButton.setText("Show Inspector Data");
 
-
-        Button checkupButton = new Button(viewAddRemoveGroup, SWT.PUSH);
+        Button checkupButton = new Button(viewAddRemoveGroup, SWT.RADIO);
         checkupButton.setText("Show Check Up Data");
 
+        //Table infoTable = new Table(viewAddRemoveGroup, SWT.NONE);
+        Table infoTable = new Table(viewAddRemoveGroup, SWT.NONE);
 
-        Button countCarsButton = new Button(queryGroup, SWT.RADIO);
+        driverButton.addSelectionListener(new SelectionAdapter() {
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if(driverButton.getSelection() == true){
+                    DriverTable driverTable = new DriverTable();
+                    driverTable.drawTable(infoTable);
+                }
+            }
+        });
+
+        //inspectorButton.addSelectionListener(new SelectionAdapter() {
+
+        //    @Override
+        //    public void widgetSelected(SelectionEvent e) {
+        //        if(inspectorButton.getSelection() == true){
+        //            InspectorTable inspectorTable = new InspectorTable();
+        //            inspectorTable.drawTable(infoTable);
+        //        }
+        //    }
+        //});
+//
+        //checkupButton.addSelectionListener(new SelectionAdapter() {
+//
+        //    @Override
+        //    public void widgetSelected(SelectionEvent e) {
+        //        if(checkupButton.getSelection() == true){
+        //            CheckupTable checkupTable = new CheckupTable();
+        //            checkupTable.drawTable(infoTable);
+        //        }
+        //    }
+        //});
+//
+        //Button refreshTable = new Button(viewAddRemoveGroup, SWT.PUSH);
+        //refreshTable.setText("Refresh");
+
+
+
+        Button countCarsButton = new Button(queryGroup, SWT.PUSH);
         countCarsButton.setText("Calculate how many cars completed check up (grouped by days)");
-        Button showInspectorButton = new Button(queryGroup, SWT.RADIO);
+        Button showInspectorButton = new Button(queryGroup, SWT.PUSH);
         showInspectorButton.setText("Show list of inspectors examined cars (grouped by days)");
-        Button showHistoryButton = new Button(queryGroup, SWT.RADIO);
+        Button showHistoryButton = new Button(queryGroup, SWT.PUSH);
         showHistoryButton.setText("Show history of check ups");
 
 
@@ -43,11 +84,6 @@ public class MainWindow {
         Label tillLabel = new Label(queryGroup, SWT.NONE);
         tillLabel.setText("Till (YYYY-MM-DD):");
         Text tillText = new Text(queryGroup, SWT.NONE);
-
-
-        Button calculateButton = new Button(queryGroup, SWT.PUSH);
-        calculateButton.setText("Calculate");
-
 
         mainShell.setBounds(400, 200, 1000, 400);
         mainShell.open();
