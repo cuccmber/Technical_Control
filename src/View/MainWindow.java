@@ -6,6 +6,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
+import java.sql.SQLException;
+
 public class MainWindow {
     private Display display = new Display();
     private Shell mainShell = new Shell(display);
@@ -29,45 +31,41 @@ public class MainWindow {
         Button checkupButton = new Button(viewAddRemoveGroup, SWT.RADIO);
         checkupButton.setText("Show Check Up Data");
 
-        //Table infoTable = new Table(viewAddRemoveGroup, SWT.NONE);
-        Table infoTable = new Table(viewAddRemoveGroup, SWT.NONE);
-
-        driverButton.addSelectionListener(new SelectionAdapter() {
+        Button refreshTableButton = new Button(viewAddRemoveGroup, SWT.PUSH);
+        refreshTableButton.setText("Refresh");
+        refreshTableButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(driverButton.getSelection() == true){
-                    DriverTable driverTable = new DriverTable();
-                    driverTable.drawTable(infoTable);
+                    DriverTable driverTable = new DriverTable(mainShell);
+                    driverTable.drawTable();
+                    try {
+                        driverTable.updateTable();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else if(inspectorButton.getSelection() == true){
+                    InspectorTable inspectorTable = new InspectorTable(mainShell);
+                    inspectorTable.drawTable();
+                    try {
+                        inspectorTable.updateTable();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else if(checkupButton.getSelection() == true){
+                    CheckupTable checkupTable = new CheckupTable(mainShell);
+                    checkupTable.drawTable();
+                    try {
+                        checkupTable.updateTable();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
-
-        //inspectorButton.addSelectionListener(new SelectionAdapter() {
-
-        //    @Override
-        //    public void widgetSelected(SelectionEvent e) {
-        //        if(inspectorButton.getSelection() == true){
-        //            InspectorTable inspectorTable = new InspectorTable();
-        //            inspectorTable.drawTable(infoTable);
-        //        }
-        //    }
-        //});
-//
-        //checkupButton.addSelectionListener(new SelectionAdapter() {
-//
-        //    @Override
-        //    public void widgetSelected(SelectionEvent e) {
-        //        if(checkupButton.getSelection() == true){
-        //            CheckupTable checkupTable = new CheckupTable();
-        //            checkupTable.drawTable(infoTable);
-        //        }
-        //    }
-        //});
-//
-        //Button refreshTable = new Button(viewAddRemoveGroup, SWT.PUSH);
-        //refreshTable.setText("Refresh");
-
 
 
         Button countCarsButton = new Button(queryGroup, SWT.PUSH);
