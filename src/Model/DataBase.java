@@ -25,17 +25,10 @@ public class DataBase {
             // executing SELECT query
             resultSet = statement.executeQuery(query);
 
-
-            //while (resultSet.next()) {
-            //    int date = resultSet.getInt(1);
-            //    int count = resultSet.getInt(2);
-            //    System.out.println(date + " " + count);
-            //}
-
         } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         } finally {
-            //close connection, stmt and resultset here                                      WHERE SHOULD I CLOSE???
+            //close connection, stmt and result set here
             //try { connection.close(); } catch(SQLException se) { /*can't do anything */ }
             //try { statement.close(); } catch(SQLException se) { /*can't do anything */ }
             //try { resultSet.close(); } catch(SQLException se) { /*can't do anything */ }

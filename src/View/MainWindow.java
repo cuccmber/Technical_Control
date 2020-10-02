@@ -1,5 +1,7 @@
 package View;
 
+import Model.DataBase;
+import Model.Query;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -13,6 +15,9 @@ public class MainWindow {
     private Shell mainShell = new Shell(display);
 
     public void showWindow(){
+
+        DataBase db = new DataBase();
+
         FillLayout verticalLayout = new FillLayout(SWT.VERTICAL);
         FillLayout horizontalLayout = new FillLayout(SWT.HORIZONTAL);
         mainShell.setLayout(horizontalLayout);
@@ -31,35 +36,35 @@ public class MainWindow {
         Button checkupButton = new Button(viewAddRemoveGroup, SWT.RADIO);
         checkupButton.setText("Show Check Up Data");
 
-        Button refreshTableButton = new Button(viewAddRemoveGroup, SWT.PUSH);
-        refreshTableButton.setText("Refresh");
-        refreshTableButton.addSelectionListener(new SelectionAdapter() {
+        Button showTableButton = new Button(viewAddRemoveGroup, SWT.PUSH);
+        showTableButton.setText("Show");
+        showTableButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(driverButton.getSelection() == true){
-                    DriverTable driverTable = new DriverTable(mainShell);
-                    driverTable.drawTable();
+                    InfoTable infoTable = new InfoTable(mainShell);
+                    infoTable.drawTable(InfoTable.driverTitles);
                     try {
-                        driverTable.updateTable();
+                        infoTable.updateDriverTable(db.createQuery(Query.showAllDrivers), infoTable.getTable()); //should string be in a query?
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
                 }
                 else if(inspectorButton.getSelection() == true){
-                    InspectorTable inspectorTable = new InspectorTable(mainShell);
-                    inspectorTable.drawTable();
+                    InfoTable infoTable = new InfoTable(mainShell);
+                    infoTable.drawTable(InfoTable.inspectorTitles);
                     try {
-                        inspectorTable.updateTable();
+                        infoTable.updateInspectorTable(db.createQuery(Query.showAllInspectors), infoTable.getTable());
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
                 }
                 else if(checkupButton.getSelection() == true){
-                    CheckupTable checkupTable = new CheckupTable(mainShell);
-                    checkupTable.drawTable();
+                    InfoTable infoTable = new InfoTable(mainShell);
+                    infoTable.drawTable(InfoTable.checkupTitles);
                     try {
-                        checkupTable.updateTable();
+                        infoTable.updateCheckupTable(db.createQuery(Query.showAllCheckups), infoTable.getTable());
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
