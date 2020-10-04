@@ -15,10 +15,13 @@ import java.sql.SQLException;
 public class MainWindow {
     private Display display = new Display();
     private Shell mainShell = new Shell(display);
+    private String driverTitle = "driver";
+    private String inspectorTitle = "inspector";
+    private String checkupTitle = "checkup";
 
     public void showWindow(){
 
-        //DataBase db = new DataBase();
+        mainShell.setText("Car Inspection");
 
         FillLayout verticalLayout = new FillLayout(SWT.VERTICAL);
         FillLayout horizontalLayout = new FillLayout(SWT.HORIZONTAL);
@@ -49,7 +52,7 @@ public class MainWindow {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(driverButton.getSelection() == true){
-                    InfoTable infoTable = new InfoTable(mainShell);
+                    InfoTable infoTable = new InfoTable(mainShell, driverTitle);
                     infoTable.drawTable(InfoTable.driverTitles);
                     DataBase db = new DataBase();
 
@@ -62,7 +65,7 @@ public class MainWindow {
                     }
                 }
                 else if(inspectorButton.getSelection() == true){
-                    InfoTable infoTable = new InfoTable(mainShell);
+                    InfoTable infoTable = new InfoTable(mainShell, inspectorTitle);
                     infoTable.drawTable(InfoTable.inspectorTitles);
                     DataBase db = new DataBase();
 
@@ -75,7 +78,7 @@ public class MainWindow {
                     }
                 }
                 else if(checkupButton.getSelection() == true){
-                    InfoTable infoTable = new InfoTable(mainShell);
+                    InfoTable infoTable = new InfoTable(mainShell, checkupTitle);
                     infoTable.drawTable(InfoTable.checkupTitles);
                     DataBase db = new DataBase();
 
