@@ -13,49 +13,35 @@ public class DataBase {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public ResultSet createQuery(String query){
+    public void openConnection() throws SQLException {
 
-        try {
-            // opening database connection to MySQL server
-            connection = DriverManager.getConnection(url, user, password);
+        // opening database connection to MySQL server
+        connection = DriverManager.getConnection(url, user, password);
 
-            // getting Statement object to execute query
-            statement = connection.createStatement();
+        // getting Statement object to execute query
+        statement = connection.createStatement();
 
-            // executing SELECT query
-            resultSet = statement.executeQuery(query);
+    }
 
-        } catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
-        } finally {
-            //close connection, stmt and result set here
-            //try { connection.close(); } catch(SQLException se) { /*can't do anything */ }
-            //try { statement.close(); } catch(SQLException se) { /*can't do anything */ }
-            //try { resultSet.close(); } catch(SQLException se) { /*can't do anything */ }
-        }
+    public ResultSet selectQuery(String query) throws SQLException {
+
+        resultSet = statement.executeQuery(query);
 
         return resultSet;
     }
 
-    public void executeQuery(String query){
-        try {
-            // opening database connection to MySQL server
-            connection = DriverManager.getConnection(url, user, password);
+    public void updateQuery(String query) throws SQLException {
 
-            // getting Statement object to execute query
-            statement = connection.createStatement();
+        statement.executeUpdate(query);
 
-            // executing INSERT query
-            statement.executeUpdate(query);
+    }
 
-        } catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
-        } finally {
-            //close connection, stmt and resultset here
-            try { connection.close(); } catch(SQLException se) { /*can't do anything */ }
-            try { statement.close(); } catch(SQLException se) { /*can't do anything */ }
-            try { resultSet.close(); } catch(SQLException se) { /*can't do anything */ }
-        }
+    public void closeConnection() throws SQLException {
+
+        //close connection, stmt and resultset here
+        connection.close();
+        statement.close();
+        resultSet.close();
 
     }
 

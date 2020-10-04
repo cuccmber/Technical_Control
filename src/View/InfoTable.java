@@ -1,6 +1,8 @@
 package View;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
@@ -15,12 +17,6 @@ public class InfoTable{
     public static String[] inspectorTitles = {"Full Name", "Inspector ID", "Post", "Rank"};
     public static  String[] checkupTitles = {"Date", "Result", "Check Up ID"};
 
-    //private int maxStudentsOnPage = 10;
-    //private int pageNumber = 0;
-    //private Text numOfStudentsText;
-    //private Label pagesIndicatorLabel;
-
-
     Table table;
     Shell subShell;
     Button addRecordButton;
@@ -29,6 +25,7 @@ public class InfoTable{
 
 
     public InfoTable(Shell parent){
+
         subShell = new Shell(parent);
 
         GridLayout gridLayout = new GridLayout();
@@ -37,6 +34,7 @@ public class InfoTable{
         subShell.setLayout(gridLayout);
 
         table = new Table(subShell, SWT.NONE);
+
         addRecordButton = new Button(subShell, SWT.PUSH);
         editRecordButton = new Button(subShell, SWT.PUSH);
         deleteRecordButton = new Button(subShell, SWT.PUSH);
@@ -69,6 +67,16 @@ public class InfoTable{
         addRecordButton.setText("Add");
         editRecordButton.setText("Edit");
         deleteRecordButton.setText("Delete");
+
+        addRecordButton.addSelectionListener(new SelectionAdapter() {
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                DriverInsertionWindow insertWindow = new DriverInsertionWindow(subShell);
+                insertWindow.drawWindow();
+
+            }
+        });
 
 
 

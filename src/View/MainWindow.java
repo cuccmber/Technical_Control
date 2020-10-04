@@ -18,7 +18,7 @@ public class MainWindow {
 
     public void showWindow(){
 
-        DataBase db = new DataBase();
+        //DataBase db = new DataBase();
 
         FillLayout verticalLayout = new FillLayout(SWT.VERTICAL);
         FillLayout horizontalLayout = new FillLayout(SWT.HORIZONTAL);
@@ -51,8 +51,12 @@ public class MainWindow {
                 if(driverButton.getSelection() == true){
                     InfoTable infoTable = new InfoTable(mainShell);
                     infoTable.drawTable(InfoTable.driverTitles);
+                    DataBase db = new DataBase();
+
                     try {
-                        infoTable.updateDriverTable(db.createQuery(Query.showAllDrivers), infoTable.getTable()); //should string be in a query?
+                        db.openConnection();
+                        infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
+                        db.closeConnection();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -60,8 +64,12 @@ public class MainWindow {
                 else if(inspectorButton.getSelection() == true){
                     InfoTable infoTable = new InfoTable(mainShell);
                     infoTable.drawTable(InfoTable.inspectorTitles);
+                    DataBase db = new DataBase();
+
                     try {
-                        infoTable.updateInspectorTable(db.createQuery(Query.showAllInspectors), infoTable.getTable());
+                        db.openConnection();
+                        infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
+                        db.closeConnection();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -69,8 +77,12 @@ public class MainWindow {
                 else if(checkupButton.getSelection() == true){
                     InfoTable infoTable = new InfoTable(mainShell);
                     infoTable.drawTable(InfoTable.checkupTitles);
+                    DataBase db = new DataBase();
+
                     try {
-                        infoTable.updateCheckupTable(db.createQuery(Query.showAllCheckups), infoTable.getTable());
+                        db.openConnection();
+                        infoTable.updateCheckupTable(db.selectQuery(Query.showAllCheckups), infoTable.getTable());
+                        db.closeConnection();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
