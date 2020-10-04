@@ -1,14 +1,8 @@
 package View;
 
-import Model.DataBase;
-import Model.Query;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,20 +10,37 @@ import java.util.Date;
 
 public class InfoTable{
 
-    public static  String[] driverTitles = {"Car ID", "Engine ID", "Color", "Brand", "Technical Passport ID", "Licence", "Full Name",
-            "Address", "Birthday", "Sex"};
-    public static String[] inspectorTitles = {"Full Name", "Inspector ID", "Post", "Inspector Rank"};
+    public static  String[] driverTitles = {"Car ID", "Engine ID", "Color", "Brand", "Passport ID", "Licence",
+            "Full Name", "Address", "Birthday", "Sex"};
+    public static String[] inspectorTitles = {"Full Name", "Inspector ID", "Post", "Rank"};
     public static  String[] checkupTitles = {"Date", "Result", "Check Up ID"};
+
+    //private int maxStudentsOnPage = 10;
+    //private int pageNumber = 0;
+    //private Text numOfStudentsText;
+    //private Label pagesIndicatorLabel;
 
 
     Table table;
     Shell subShell;
+    Button addRecordButton;
+    Button editRecordButton;
+    Button deleteRecordButton;
 
 
     public InfoTable(Shell parent){
         subShell = new Shell(parent);
-        subShell.setLayout(new FillLayout());
+
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 3;
+        gridLayout.horizontalSpacing = 50;
+        subShell.setLayout(gridLayout);
+
         table = new Table(subShell, SWT.NONE);
+        addRecordButton = new Button(subShell, SWT.PUSH);
+        editRecordButton = new Button(subShell, SWT.PUSH);
+        deleteRecordButton = new Button(subShell, SWT.PUSH);
+
     }
 
     public Table getTable() {
@@ -37,22 +48,33 @@ public class InfoTable{
     }
 
     public void drawTable(String[] titles){
-        GridLayout gridLayout = new GridLayout();
-        gridLayout.marginTop = 10;
-        gridLayout.marginBottom = 10;
-        gridLayout.marginLeft = 5;
-        gridLayout.marginRight = 5;
-        table.setLayout(gridLayout);
+
+        GridData tableGridData = new GridData(1000, 250);
+        tableGridData.horizontalSpan = 3;
+        table.setLayoutData(tableGridData);
+
+        GridData buttonGridData = new GridData(300, 60);
+        addRecordButton.setLayoutData(buttonGridData);
+        editRecordButton.setLayoutData(buttonGridData);
+        deleteRecordButton.setLayoutData(buttonGridData);
 
         table.setHeaderVisible(true);
-
 
         for (int i = 0; i < titles.length; i++) {
             TableColumn column = new TableColumn(table, SWT.NONE);
             column.setText(titles[i]);
-            table.getColumn(i).pack();
+            table.getColumn(i).setWidth(100);
         }
 
+        addRecordButton.setText("Add");
+        editRecordButton.setText("Edit");
+        deleteRecordButton.setText("Delete");
+
+
+
+
+
+        subShell.setBounds(400, 230, 1030, 400);
         subShell.open();
     }
 

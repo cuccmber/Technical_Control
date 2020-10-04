@@ -1,5 +1,3 @@
-import Model.DataBase;
-import Model.Query;
 import View.MainWindow;
 
 import java.sql.SQLException;
