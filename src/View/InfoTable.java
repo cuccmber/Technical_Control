@@ -1,5 +1,7 @@
 package View;
 
+import Controller.DataBase;
+import Controller.Query;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -40,7 +42,7 @@ public class InfoTable{
         gridLayout.horizontalSpacing = 50;
         subShell.setLayout(gridLayout);
 
-        table = new Table(subShell, SWT.NONE);
+        table = new Table(subShell, SWT.FULL_SELECTION);
 
         addRecordButton = new Button(subShell, SWT.PUSH);
         editRecordButton = new Button(subShell, SWT.PUSH);
@@ -95,6 +97,80 @@ public class InfoTable{
                 else if (shellTitle == checkupTitle) {
                     CheckupInsertionDialog insertWindow = new CheckupInsertionDialog(subShell, getInfoTable());
                     insertWindow.drawWindow();
+                }
+            }
+        });
+
+        deleteRecordButton.addSelectionListener(new SelectionAdapter() {
+
+            @Override
+            public void widgetSelected(SelectionEvent e) { //make new class? Obviously yes
+                if(shellTitle == driverTitle) {
+                    String deletionString = Query.deleteDriver + table.getSelection()[0].getText(4) + "');";
+
+                    DataBase db = new DataBase();
+                    try {
+                        db.openConnection();
+                        db.updateQuery(deletionString);
+                        table.removeAll();
+                        updateDriverTable(db.selectQuery(Query.showAllDrivers), getTable());
+                        db.closeConnection();
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    MessageBox box = new MessageBox(subShell, SWT.OK);
+                    box.setText("Info");
+                    box.setMessage("A driver has been deleted successfully!");
+                    box.open();
+
+                }
+                else if(shellTitle == inspectorTitle){
+
+                    String deletionString = Query.deleteInspector + table.getSelection()[0].getText(1) + "');";
+
+                    DataBase db = new DataBase();
+                    try {
+                        db.openConnection();
+                        db.updateQuery(deletionString);
+                        table.removeAll();
+                        updateInspectorTable(db.selectQuery(Query.showAllInspectors), getTable());
+                        db.closeConnection();
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    MessageBox box = new MessageBox(subShell, SWT.OK);
+                    box.setText("Info");
+                    box.setMessage("An inspector has been deleted successfully!");
+                    box.open();
+
+
+                }
+                else if(shellTitle == checkupTitle){
+
+                    String deletionString = Query.deleteCheckupOne + table.getSelection()[0].getText(0) +
+                            Query.deleteCheckupTwo + table.getSelection()[0].getText(2) + "');";
+
+                    DataBase db = new DataBase();
+                    try {
+                        db.openConnection();
+                        db.updateQuery(deletionString);
+                        table.removeAll();
+                        updateCheckupTable(db.selectQuery(Query.showAllCheckups), getTable());
+                        db.closeConnection();
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    MessageBox box = new MessageBox(subShell, SWT.OK);
+                    box.setText("Info");
+                    box.setMessage("A checkup has been deleted successfully!");
+                    box.open();
+
                 }
             }
         });

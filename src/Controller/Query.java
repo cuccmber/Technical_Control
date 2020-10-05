@@ -26,8 +26,14 @@ public class Query {
                 "FROM checkup " +
                 "JOIN driver ON driver.carID = checkup.carID " +
                 "WHERE driver.engineID = '5542';";
+
     public static String addNewDriver = "INSERT INTO driver";
     public static String addNewInspector = "INSERT INTO inspector";
     public static String addNewCheckup = "INSERT INTO checkup";
+
+    public static String deleteDriver = "DELETE FROM driver WHERE (technicalPassportID = '";
+    public static String deleteInspector = "DELETE FROM inspector WHERE (inspectorID = '";
+    public static String deleteCheckupOne = "DELETE FROM checkup WHERE (checkupDate = '";
+    public static String deleteCheckupTwo = "' AND carID = '";
 
 }
