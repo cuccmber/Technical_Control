@@ -9,34 +9,45 @@ import java.sql.SQLException;
 
 public class InspectorDeletion {
 
-    Shell shell;
-    InfoTable infoTable;
+    private Shell shell;
+    private InfoTable infoTable;
+    private DataBase db;
 
     public InspectorDeletion(Shell shell, InfoTable infoTable){
         this.shell = shell;
         this.infoTable = infoTable;
+        db = new DataBase();
     }
 
     public void deleteInspector(String inspectorID) {
 
         String deletionString = Query.deleteInspector + inspectorID + "');";
 
-        DataBase db = new DataBase();
         try {
             db.openConnection();
             db.updateQuery(deletionString);
-            infoTable.getTable().removeAll();
-            infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
-            db.closeConnection();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        MessageBox box = new MessageBox(shell, SWT.OK);
-        box.setText("Info");
-        box.setMessage("An inspector has been deleted successfully!");
-        box.open();
+        //MessageBox box = new MessageBox(shell, SWT.OK);
+        //box.setText("Info");
+        //box.setMessage("An inspector has been deleted successfully!");
+        //box.open();
+
+    }
+
+    public void redrawTable(){
+
+        infoTable.getTable().removeAll();
+
+        try {
+            infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
+            db.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

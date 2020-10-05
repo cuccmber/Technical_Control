@@ -33,9 +33,7 @@ public class InspectorInsertionDialog {
 
     }
 
-    public void drawWindow(){
-
-        subShell.setText("Insert");
+    public void insertInspector(){
 
         Label fullNameLabel = new Label(subShell, SWT.NONE);
         fullNameLabel.setText("Full Name:");
@@ -65,7 +63,6 @@ public class InspectorInsertionDialog {
 
                 insertionString += ("'" + fullNameText.getText() + "', '" + inspectorIDText.getText() + "', '" +
                         postText.getText() + "', '" + rankText.getText() + "');");
-                System.out.println(insertionString);
 
                 DataBase db = new DataBase();
                 try {
@@ -81,10 +78,10 @@ public class InspectorInsertionDialog {
 
                 subShell.close();
 
-                MessageBox box = new MessageBox(parent, SWT.OK);
-                box.setText("Info");
-                box.setMessage("An inspector has been added successfully!");
-                box.open();
+                //MessageBox box = new MessageBox(parent, SWT.OK);
+                //box.setText("Info");
+                //box.setMessage("An inspector has been added successfully!");
+                //box.open();
             }
         });
 

@@ -33,14 +33,12 @@ public class CheckupInsertionDialog {
 
     }
 
-    public void drawWindow(){
-
-        subShell.setText("Insert");
+    public void insertCheckup(){
 
         Label checkupDateLabel = new Label(subShell, SWT.NONE);
         checkupDateLabel.setText("Check up Date:");
         Label resultLabel = new Label(subShell, SWT.NONE);
-        resultLabel.setText("Inspector ID:");
+        resultLabel.setText("Result:");
         Label carIDLabel = new Label(subShell, SWT.NONE);
         carIDLabel.setText("Car ID:");
         Label inspectorIDLabel = new Label(subShell, SWT.NONE);
@@ -48,7 +46,7 @@ public class CheckupInsertionDialog {
 
         Text checkupDateText = new Text(subShell, SWT.NONE);
         checkupDateText.setTextLimit(45);
-        Combo resultCombo = new Combo(subShell, SWT.READ_ONLY);
+        Combo resultCombo = new Combo(subShell, SWT.READ_ONLY);  //change to boolean
         resultCombo.add("0");
         resultCombo.add("1");
         Text carIDText = new Text(subShell, SWT.NONE);
@@ -65,7 +63,6 @@ public class CheckupInsertionDialog {
 
                 insertionString += ("'" + checkupDateText.getText() + "', '" + resultCombo.getText() + "', '" +
                         carIDText.getText() + "', '" + inspectorIDText.getText() + "');");
-                System.out.println(insertionString);
 
                 DataBase db = new DataBase();
                 try {
@@ -81,10 +78,10 @@ public class CheckupInsertionDialog {
 
                 subShell.close();
 
-                MessageBox box = new MessageBox(parent, SWT.OK);
-                box.setText("Info");
-                box.setMessage("A check up has been added successfully!");
-                box.open();
+                //MessageBox box = new MessageBox(parent, SWT.OK);
+                //box.setText("Info");
+                //box.setMessage("A check up has been added successfully!");
+                //box.open();
             }
         });
 

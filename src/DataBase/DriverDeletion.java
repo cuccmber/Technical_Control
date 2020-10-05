@@ -11,34 +11,46 @@ import java.sql.SQLException;
 
 public class DriverDeletion {
 
-    Shell shell;
-    InfoTable infoTable;
+    private Shell shell;
+    private InfoTable infoTable;
+    private DataBase db;
 
     public DriverDeletion(Shell shell, InfoTable infoTable){
         this.shell = shell;
         this.infoTable = infoTable;
+        db = new DataBase();
+
     }
 
     public void deleteDriver(String passportID){
 
         String deletionString = Query.deleteDriver + passportID + "');";
 
-        DataBase db = new DataBase();
         try {
             db.openConnection();
             db.updateQuery(deletionString);
-            infoTable.getTable().removeAll();
-            infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
-            db.closeConnection();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        MessageBox box = new MessageBox(shell, SWT.OK);
-        box.setText("Info");
-        box.setMessage("A driver has been deleted successfully!");
-        box.open();
+        //MessageBox box = new MessageBox(shell, SWT.OK);
+        //box.setText("Info");
+        //box.setMessage("A driver has been deleted successfully!");
+        //box.open();
+
+    }
+
+    public void redrawTable(){
+
+        infoTable.getTable().removeAll();
+
+        try {
+            infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
+            db.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

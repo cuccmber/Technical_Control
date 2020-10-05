@@ -33,9 +33,7 @@ public class DriverInsertionDialog {
 
     }
 
-    public void drawWindow(){
-
-        subShell.setText("Insert");
+    public void insertDriver(){
 
         Label carIDLabel = new Label(subShell, SWT.NONE);
         carIDLabel.setText("Car ID:");
@@ -106,10 +104,10 @@ public class DriverInsertionDialog {
 
                 subShell.close();
 
-                MessageBox box = new MessageBox(parent, SWT.OK);
-                box.setText("Info");
-                box.setMessage("A driver has been added successfully!");
-                box.open();
+                //MessageBox box = new MessageBox(parent, SWT.OK);
+                //box.setText("Info");
+                //box.setMessage("A driver has been added successfully!");
+                //box.open();
             }
         });
 
