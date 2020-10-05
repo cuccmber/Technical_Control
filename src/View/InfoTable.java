@@ -1,7 +1,13 @@
 package View;
 
-import Controller.DataBase;
-import Controller.Query;
+import DataBase.DataBase;
+import DataBase.Query;
+import DataBase.DriverInsertionDialog;
+import DataBase.InspectorInsertionDialog;
+import DataBase.CheckupInsertionDialog;
+import DataBase.DriverDeletion;
+import DataBase.InspectorDeletion;
+import DataBase.CheckupDeletion;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -104,72 +110,26 @@ public class InfoTable{
         deleteRecordButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
-            public void widgetSelected(SelectionEvent e) { //make new class? Obviously yes
+            public void widgetSelected(SelectionEvent e) {
                 if(shellTitle == driverTitle) {
-                    String deletionString = Query.deleteDriver + table.getSelection()[0].getText(4) + "');";
-
-                    DataBase db = new DataBase();
-                    try {
-                        db.openConnection();
-                        db.updateQuery(deletionString);
-                        table.removeAll();
-                        updateDriverTable(db.selectQuery(Query.showAllDrivers), getTable());
-                        db.closeConnection();
-
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    MessageBox box = new MessageBox(subShell, SWT.OK);
-                    box.setText("Info");
-                    box.setMessage("A driver has been deleted successfully!");
-                    box.open();
+                    String passportID = table.getSelection()[0].getText(4);
+                    DriverDeletion driverDeletion = new DriverDeletion(subShell, getInfoTable());
+                    driverDeletion.deleteDriver(passportID);
 
                 }
                 else if(shellTitle == inspectorTitle){
 
-                    String deletionString = Query.deleteInspector + table.getSelection()[0].getText(1) + "');";
-
-                    DataBase db = new DataBase();
-                    try {
-                        db.openConnection();
-                        db.updateQuery(deletionString);
-                        table.removeAll();
-                        updateInspectorTable(db.selectQuery(Query.showAllInspectors), getTable());
-                        db.closeConnection();
-
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    MessageBox box = new MessageBox(subShell, SWT.OK);
-                    box.setText("Info");
-                    box.setMessage("An inspector has been deleted successfully!");
-                    box.open();
-
+                    String inspectorID = table.getSelection()[0].getText(1);
+                    InspectorDeletion inspectorDeletion = new InspectorDeletion(subShell, getInfoTable());
+                    inspectorDeletion.deleteInspector(inspectorID);
 
                 }
                 else if(shellTitle == checkupTitle){
 
-                    String deletionString = Query.deleteCheckupOne + table.getSelection()[0].getText(0) +
-                            Query.deleteCheckupTwo + table.getSelection()[0].getText(2) + "');";
-
-                    DataBase db = new DataBase();
-                    try {
-                        db.openConnection();
-                        db.updateQuery(deletionString);
-                        table.removeAll();
-                        updateCheckupTable(db.selectQuery(Query.showAllCheckups), getTable());
-                        db.closeConnection();
-
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    MessageBox box = new MessageBox(subShell, SWT.OK);
-                    box.setText("Info");
-                    box.setMessage("A checkup has been deleted successfully!");
-                    box.open();
+                    String checkupDate = table.getSelection()[0].getText(0);
+                    String carID = table.getSelection()[0].getText(2);
+                    CheckupDeletion checkupDeletion = new CheckupDeletion(subShell, getInfoTable());
+                    checkupDeletion.deleteCheckup(checkupDate, carID);
 
                 }
             }

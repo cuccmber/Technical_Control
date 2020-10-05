@@ -1,12 +1,4 @@
-package Controller;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
+package DataBase;
 
 public class Query {
 
