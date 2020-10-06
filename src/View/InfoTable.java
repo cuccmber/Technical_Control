@@ -21,7 +21,7 @@ public class InfoTable{
     public static  String[] driverTitles = {"Car ID", "Engine ID", "Color", "Brand", "Passport ID", "Licence",
             "Full Name", "Address", "Birthday", "Sex"};
     public static String[] inspectorTitles = {"Full Name", "Inspector ID", "Post", "Rank"};
-    public static  String[] checkupTitles = {"Date", "Result", "Check Up ID", "Inspector ID"};
+    public static  String[] checkupTitles = {"Date", "Result", "Car ID", "Inspector ID"};
 
     private String shellTitle;
     private String driverTitle = "driver";
@@ -192,6 +192,7 @@ public class InfoTable{
             item.setText(8, String.valueOf(resultSet.getDate(9)));
             item.setText(9, resultSet.getString(10));
         }
+
     }
 
     public void updateInspectorTable(ResultSet resultSet, Table table) throws SQLException {

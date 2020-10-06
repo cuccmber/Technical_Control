@@ -8,16 +8,15 @@ public class Query {
     public static String countCars = "SELECT checkupDate, COUNT(carID) " +
                 "FROM checkup " +
                 "WHERE result = 1 " +
-                "AND checkupDate BETWEEN '2015-08-08' AND '2019-02-02'" +
-                " GROUP BY checkupDate;";
+                "AND checkupDate BETWEEN '";
     public static String showInspector = "SELECT fullName, inspectorRank, carID " +
                 "FROM inspector " +
                 "JOIN checkup ON inspector.inspectorID = checkup.inspectorID " +
-                "WHERE checkupDate BETWEEN '2018-08-08' AND '2019-02-02';";
+                "WHERE checkupDate BETWEEN '";
     public static String showHistory = "SELECT checkupDate, result " +
                 "FROM checkup " +
                 "JOIN driver ON driver.carID = checkup.carID " +
-                "WHERE driver.engineID = '5542';";
+                "WHERE driver.engineID = '";
 
     public static String addNewDriver = "INSERT INTO driver";
     public static String addNewInspector = "INSERT INTO inspector";
