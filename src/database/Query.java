@@ -1,10 +1,11 @@
-package DataBase;
+package database;
 
 public class Query {
 
     public static String showAllDrivers = "SELECT * FROM driver";
     public static String showAllInspectors = "SELECT * FROM inspector";
     public static String showAllCheckups = "SELECT * FROM checkup";
+
     public static String countCars = "SELECT checkupDate, COUNT(carID) " +
                 "FROM checkup " +
                 "WHERE result = 1 " +
@@ -26,5 +27,6 @@ public class Query {
     public static String deleteInspector = "DELETE FROM inspector WHERE (inspectorID = '";
     public static String deleteCheckupOne = "DELETE FROM checkup WHERE (checkupDate = '";
     public static String deleteCheckupTwo = "' AND carID = '";
+
 
 }

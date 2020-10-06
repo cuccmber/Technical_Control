@@ -1,5 +1,7 @@
-package DataBase;
+package search;
 
+import database.DataBase;
+import database.Query;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -7,15 +9,14 @@ import org.eclipse.swt.widgets.TableItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class InspectorSearch {
+public class CheckupSearch {
 
-
-    public void searchInspector (Table table, String fromDate, String tillDate) throws SQLException {
+    public void searchCheckup (Table table, String fromDate, String tillDate) throws SQLException {
 
         DataBase db = new DataBase();
         ResultSet resultSet;
 
-        String query = Query.showInspector + fromDate + "' AND '" + tillDate + "' GROUP BY checkupDate;";
+        String query = Query.countCars + fromDate + "' AND '" + tillDate + "' GROUP BY checkupDate;";
 
 
         db.openConnection();
@@ -24,10 +25,10 @@ public class InspectorSearch {
         while (resultSet.next()) {
 
             TableItem item = new TableItem(table, SWT.NONE);
-            item.setText(0, resultSet.getString(1));
-            item.setText(1, resultSet.getString(2));
-            item.setText(2, String.valueOf(resultSet.getInt(3)));
+            item.setText(0, String.valueOf(resultSet.getDate(1)));
+            item.setText(1, String.valueOf(resultSet.getInt(2)));
         }
+
 
         db.closeConnection();
 

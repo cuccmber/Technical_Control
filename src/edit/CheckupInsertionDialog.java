@@ -1,8 +1,8 @@
-package DataBase;
+package edit;
 
-import DataBase.DataBase;
-import DataBase.Query;
-import View.InfoTable;
+import database.DataBase;
+import database.Query;
+import info.InfoTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

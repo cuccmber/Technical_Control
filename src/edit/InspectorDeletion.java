@@ -1,30 +1,27 @@
-package DataBase;
+package edit;
 
-import DataBase.DataBase;
-import DataBase.Query;
-import View.InfoTable;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
+import database.DataBase;
+import database.Query;
+import info.InfoTable;
 import org.eclipse.swt.widgets.Shell;
 
 import java.sql.SQLException;
 
-public class DriverDeletion {
+public class InspectorDeletion {
 
     private Shell shell;
     private InfoTable infoTable;
     private DataBase db;
 
-    public DriverDeletion(Shell shell, InfoTable infoTable){
+    public InspectorDeletion(Shell shell, InfoTable infoTable){
         this.shell = shell;
         this.infoTable = infoTable;
         db = new DataBase();
-
     }
 
-    public void deleteDriver(String passportID){
+    public void deleteInspector(String inspectorID) {
 
-        String deletionString = Query.deleteDriver + passportID + "');";
+        String deletionString = Query.deleteInspector + inspectorID + "');";
 
         try {
             db.openConnection();
@@ -36,7 +33,7 @@ public class DriverDeletion {
 
         //MessageBox box = new MessageBox(shell, SWT.OK);
         //box.setText("Info");
-        //box.setMessage("A driver has been deleted successfully!");
+        //box.setMessage("An inspector has been deleted successfully!");
         //box.open();
 
     }
@@ -46,7 +43,7 @@ public class DriverDeletion {
         infoTable.getTable().removeAll();
 
         try {
-            infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
+            infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
             db.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();

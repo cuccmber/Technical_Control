@@ -1,28 +1,28 @@
-package DataBase;
+package edit;
 
-import View.InfoTable;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
+import database.DataBase;
+import database.Query;
+import info.InfoTable;
 import org.eclipse.swt.widgets.Shell;
 
 import java.sql.SQLException;
 
-public class CheckupDeletion {
+public class DriverDeletion {
 
-    Shell shell;
-    InfoTable infoTable;
-    DataBase db;
+    private Shell shell;
+    private InfoTable infoTable;
+    private DataBase db;
 
-    public CheckupDeletion(Shell shell, InfoTable infoTable){
+    public DriverDeletion(Shell shell, InfoTable infoTable){
         this.shell = shell;
         this.infoTable = infoTable;
         db = new DataBase();
 
     }
 
-    public void deleteCheckup(String checkupDate, String carID){
+    public void deleteDriver(String passportID){
 
-        String deletionString = Query.deleteCheckupOne + checkupDate + Query.deleteCheckupTwo + carID + "');";
+        String deletionString = Query.deleteDriver + passportID + "');";
 
         try {
             db.openConnection();
@@ -34,7 +34,7 @@ public class CheckupDeletion {
 
         //MessageBox box = new MessageBox(shell, SWT.OK);
         //box.setText("Info");
-        //box.setMessage("A check up has been deleted successfully!");
+        //box.setMessage("A driver has been deleted successfully!");
         //box.open();
 
     }
@@ -44,10 +44,11 @@ public class CheckupDeletion {
         infoTable.getTable().removeAll();
 
         try {
-            infoTable.updateCheckupTable(db.selectQuery(Query.showAllCheckups), infoTable.getTable());
+            infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
             db.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 }

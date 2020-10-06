@@ -1,11 +1,11 @@
-package View;
+package info;
 
-import DataBase.DriverInsertionDialog;
-import DataBase.InspectorInsertionDialog;
-import DataBase.CheckupInsertionDialog;
-import DataBase.DriverDeletion;
-import DataBase.InspectorDeletion;
-import DataBase.CheckupDeletion;
+import edit.DriverInsertionDialog;
+import edit.InspectorInsertionDialog;
+import edit.CheckupInsertionDialog;
+import edit.DriverDeletion;
+import edit.InspectorDeletion;
+import edit.CheckupDeletion;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

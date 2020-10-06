@@ -1,4 +1,4 @@
-import View.MainWindow;
+import window.MainWindow;
 
 import java.sql.SQLException;
 

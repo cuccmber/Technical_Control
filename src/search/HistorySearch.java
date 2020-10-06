@@ -1,5 +1,7 @@
-package DataBase;
+package search;
 
+import database.DataBase;
+import database.Query;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
