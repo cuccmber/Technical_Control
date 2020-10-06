@@ -174,7 +174,6 @@ public class MainWindow {
                 inspectorInfo.showTable();
 
             }
-
         });
 
         showHistoryButton.addSelectionListener(new SelectionAdapter() {
