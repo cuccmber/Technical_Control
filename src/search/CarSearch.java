@@ -24,7 +24,7 @@ public class CarSearch {
     public void searchCheckup (String fromDate, String tillDate) throws SQLException {
 
         DataBase db = new DataBase();
-        connection = db.openConnection();
+        connection = db.getOpenedConnection();
         statement = connection.prepareStatement(countCars);
 
         statement.setDate(1, Date.valueOf(fromDate));

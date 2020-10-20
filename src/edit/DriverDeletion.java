@@ -1,9 +1,7 @@
 package edit;
 
 import database.DataBase;
-import database.Query;
 import info.InfoTable;
-import org.eclipse.swt.widgets.Shell;
 import search.SelectionQuery;
 
 import java.sql.Connection;
@@ -27,7 +25,7 @@ public class DriverDeletion {
         DataBase db = new DataBase();
 
         try {
-            connection = db.openConnection();
+            connection = db.getOpenedConnection();
             statement = connection.prepareStatement(deleteDriver);
 
             statement.setInt(1, Integer.parseInt(passportID));

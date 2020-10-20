@@ -10,43 +10,13 @@ public class DataBase {
 
     // JDBC variables for opening and managing connection
     private static Connection connection;
-    private static Statement statement;
-    private static ResultSet resultSet;
 
-    public Connection openConnection() throws SQLException {
-
+    public Connection getOpenedConnection() throws SQLException {
 
         // opening database connection to MySQL server
         connection = DriverManager.getConnection(url, user, password);
 
-
-        // getting Statement object to execute query
-        //statement = connection.createStatement();
-//open only conn
         return connection;
-
-    }
-
-    public ResultSet selectQuery(String query) throws SQLException {
-
-        resultSet = statement.executeQuery(query);
-
-        return resultSet;
-    }
-
-    public void updateQuery(String query) throws SQLException {
-
-        statement.executeUpdate(query);
-
-    }
-
-    public void closeConnection() throws SQLException {
-
-        //close connection, stmt and resultset here
-        connection.close();
-        statement.close();
-        resultSet.close();
-
     }
 
 }

@@ -24,7 +24,7 @@ public class SelectionQuery {
         DataBase db = new DataBase();
 
         try {
-            connection = db.openConnection();
+            connection = db.getOpenedConnection();
             statement = connection.prepareStatement(queryString);
             resultSet = statement.executeQuery();
 

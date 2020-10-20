@@ -1,7 +1,6 @@
 package search;
 
 import database.DataBase;
-import database.Query;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -25,7 +24,7 @@ public class CheckupSearch {
     public void searchHistory (String engineID) throws SQLException, ClassNotFoundException {
 
         DataBase db = new DataBase();
-        connection = db.openConnection();
+        connection = db.getOpenedConnection();
         statement = connection.prepareStatement(showHistory);
 
         statement.setInt(1, Integer.parseInt(engineID));

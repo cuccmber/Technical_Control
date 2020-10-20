@@ -218,29 +218,4 @@ public class InfoTable{
             item.setText(3, String.valueOf(resultSet.getInt(4)));
         }
     }
-
-    public void printCountCars(ResultSet resultSet, Table table) throws SQLException {
-        while (resultSet.next()) {
-
-            TableItem item = new TableItem(table, SWT.NONE);
-            int date = resultSet.getInt(1);
-            int count = resultSet.getInt(2);
-            System.out.println(date + ": " + count);
-        }
-    }
-
-    public void printShowInspector(ResultSet resultSet, Table table) throws SQLException {
-        String date = resultSet.getString(1);
-        String count = resultSet.getString(2);
-        int sth = resultSet.getInt(3);
-        System.out.println(date + ": " + count);
-    }
-
-    public void printShowHistory(ResultSet resultSet, Table table) throws SQLException {
-        Date date = resultSet.getDate(1);
-        boolean count = resultSet.getBoolean(2);
-        System.out.println(date + ": " + count);
-    }
-
-
 }

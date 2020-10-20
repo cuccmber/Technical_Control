@@ -1,7 +1,6 @@
 package edit;
 
 import database.DataBase;
-import database.Query;
 import info.InfoTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -92,7 +91,7 @@ public class DriverInsertionDialog {
 
                 DataBase db = new DataBase();
                 try {
-                    connection = db.openConnection();
+                    connection = db.getOpenedConnection();
                     statement = connection.prepareStatement(insertionString);
 
                     statement.setInt(1, Integer.parseInt(carIDText.getText()));

@@ -24,7 +24,7 @@ public class InspectorSearch {
     public void searchInspector (String fromDate, String tillDate) throws SQLException {
 
         DataBase db = new DataBase();
-        connection = db.openConnection();
+        connection = db.getOpenedConnection();
         statement = connection.prepareStatement(showInspector);
 
         statement.setDate(1, Date.valueOf(fromDate));

@@ -1,7 +1,6 @@
 package edit;
 
 import database.DataBase;
-import database.Query;
 import info.InfoTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,7 +11,6 @@ import org.eclipse.swt.widgets.*;
 import search.SelectionQuery;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -66,7 +64,7 @@ public class InspectorInsertionDialog {
 
                 DataBase db = new DataBase();
                 try {
-                    connection = db.openConnection();
+                    connection = db.getOpenedConnection();
                     statement = connection.prepareStatement(insertionString);
 
                     statement.setString(1, fullNameText.getText());
