@@ -45,8 +45,8 @@ public class MainWindow {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                ShowAll showAll = new ShowAll(mainShell);
-                showAll.overrideButton(driverButton, inspectorButton, checkupButton);
+                ShowAllButton showAllButton = new ShowAllButton(mainShell);
+                showAllButton.overrideButton(driverButton, inspectorButton, checkupButton);
             }
         });
 
@@ -85,8 +85,8 @@ public class MainWindow {
             @Override
             public void widgetSelected(SelectionEvent e) {
 
-                CountCars countCars =new CountCars(mainShell);
-                countCars.overrideButton(fromText, tillText);
+                CountCarsButton countCarsButton =new CountCarsButton(mainShell);
+                countCarsButton.overrideButton(fromText, tillText);
 
             }
         });
@@ -96,8 +96,8 @@ public class MainWindow {
             @Override
             public void widgetSelected(SelectionEvent e) {
 
-                ShowInspector showInspector =new ShowInspector(mainShell);
-                showInspector.overrideButton(fromText, tillText);
+                ShowInspectorButton showInspectorButton =new ShowInspectorButton(mainShell);
+                showInspectorButton.overrideButton(fromText, tillText);
 
             }
         });
@@ -107,8 +107,8 @@ public class MainWindow {
             @Override
             public void widgetSelected(SelectionEvent e) {
 
-                ShowHistory showHistory = new ShowHistory(mainShell);
-                showHistory.overrideButton(engineIDText);
+                ShowHistoryButton showHistoryButton = new ShowHistoryButton(mainShell);
+                showHistoryButton.overrideButton(engineIDText);
 
             }
 

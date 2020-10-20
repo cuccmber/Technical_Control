@@ -6,21 +6,31 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class CheckupSearch {
 
-    public void searchCheckup (Table table, String fromDate, String tillDate) throws SQLException {
+    private Table table;
+    private PreparedStatement statement;
+    private Connection connection;
+    String showHistory = "SELECT checkupDate, result " +
+            "FROM checkup " +
+            "JOIN driver ON driver.carID = checkup.carID " +
+            "WHERE driver.engineID = ?;";
+
+    public CheckupSearch(Table table){
+        this.table = table;
+    }
+
+    public void searchHistory (String engineID) throws SQLException, ClassNotFoundException {
 
         DataBase db = new DataBase();
-        ResultSet resultSet;
+        connection = db.openConnection();
+        statement = connection.prepareStatement(showHistory);
 
-        String query = Query.countCars + fromDate + "' AND '" + tillDate + "' GROUP BY checkupDate;";
+        statement.setInt(1, Integer.parseInt(engineID));
 
-
-        db.openConnection();
-        resultSet = db.selectQuery(query);
+        ResultSet resultSet = statement.executeQuery();
 
         while (resultSet.next()) {
 
@@ -29,8 +39,6 @@ public class CheckupSearch {
             item.setText(1, String.valueOf(resultSet.getInt(2)));
         }
 
-
-        db.closeConnection();
-
+        connection.close();
     }
 }

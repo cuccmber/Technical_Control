@@ -2,16 +2,16 @@ package window;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import search.HistorySearch;
+import search.CheckupSearch;
 import search.SearchResultTable;
 
 import java.sql.SQLException;
 
-public class ShowHistory {
+public class ShowHistoryButton {
 
     private Shell shell;
 
-    public ShowHistory(Shell shell){
+    public ShowHistoryButton(Shell shell){
         this.shell = shell;
     }
 
@@ -20,12 +20,12 @@ public class ShowHistory {
         String engineID = engineIDText.getText();
 
         SearchResultTable historyInfo = new SearchResultTable(shell);
-        HistorySearch historySearch = new HistorySearch();
+        CheckupSearch checkupSearch = new CheckupSearch(historyInfo.getTable());
         historyInfo.createTable(historyInfo.checkupHistoryInfo);
 
         try {
-            historySearch.searchHistory(historyInfo.getTable(), engineID);
-        } catch (SQLException ex) {
+            checkupSearch.searchHistory(engineID);
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
 

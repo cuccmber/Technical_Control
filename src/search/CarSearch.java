@@ -7,25 +7,25 @@ import org.eclipse.swt.widgets.TableItem;
 
 import java.sql.*;
 
-public class InspectorSearch {
+public class CarSearch {
 
     private Table table;
     private PreparedStatement statement;
     private Connection connection;
-    private String showInspector = "SELECT fullName, inspectorRank, carID " +
-            "FROM inspector " +
-            "JOIN checkup ON inspector.inspectorID = checkup.inspectorID " +
-            "WHERE checkupDate BETWEEN ? AND ?;";
+    private String countCars = "SELECT checkupDate, COUNT(carID) " +
+            "FROM checkup " +
+            "WHERE result = 1 " +
+            "AND checkupDate BETWEEN ? AND ?;";
 
-    public InspectorSearch(Table table){
+    public CarSearch(Table table){
         this.table = table;
     }
 
-    public void searchInspector (String fromDate, String tillDate) throws SQLException {
+    public void searchCheckup (String fromDate, String tillDate) throws SQLException {
 
         DataBase db = new DataBase();
         connection = db.openConnection();
-        statement = connection.prepareStatement(showInspector);
+        statement = connection.prepareStatement(countCars);
 
         statement.setDate(1, Date.valueOf(fromDate));
         statement.setDate(2, Date.valueOf(tillDate));
@@ -35,12 +35,10 @@ public class InspectorSearch {
         while (resultSet.next()) {
 
             TableItem item = new TableItem(table, SWT.NONE);
-            item.setText(0, resultSet.getString(1));
-            item.setText(1, resultSet.getString(2));
-            item.setText(2, String.valueOf(resultSet.getInt(3)));
+            item.setText(0, String.valueOf(resultSet.getDate(1)));
+            item.setText(1, String.valueOf(resultSet.getInt(2)));
         }
 
         connection.close();
-
     }
 }

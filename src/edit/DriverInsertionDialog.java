@@ -92,11 +92,11 @@ public class DriverInsertionDialog {
 
                 DataBase db = new DataBase();
                 try {
-                        db.openConnection();
-                        db.updateQuery(insertionString);
-                        infoTable.getTable().removeAll();
-                        infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
-                        db.closeConnection();
+                    db.openConnection();
+                    db.updateQuery(insertionString);
+                    infoTable.getTable().removeAll();
+                    infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
+                    db.closeConnection();
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();

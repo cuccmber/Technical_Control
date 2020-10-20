@@ -8,11 +8,11 @@ import search.SearchResultTable;
 
 import java.sql.SQLException;
 
-public class ShowInspector {
+public class ShowInspectorButton {
 
     private Shell shell;
 
-    public ShowInspector(Shell shell) {
+    public ShowInspectorButton(Shell shell) {
         this.shell = shell;
     }
 
@@ -21,12 +21,12 @@ public class ShowInspector {
         String tillDate = tillText.getText();
 
         SearchResultTable inspectorInfo = new SearchResultTable(shell);
-        InspectorSearch inspectorSearch = new InspectorSearch();
+        InspectorSearch inspectorSearch = new InspectorSearch(inspectorInfo.getTable());
         inspectorInfo.createTable(inspectorInfo.inspectorBetweenInfoTitles);
 
         try {
-            inspectorSearch.searchInspector(inspectorInfo.getTable(), fromDate, tillDate);
-        } catch (SQLException ex) {
+            inspectorSearch.searchInspector(fromDate, tillDate);
+        } catch (SQLException  ex) {
             ex.printStackTrace();
         }
 

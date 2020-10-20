@@ -2,16 +2,16 @@ package window;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import search.CheckupSearch;
+import search.CarSearch;
 import search.SearchResultTable;
 
 import java.sql.SQLException;
 
-public class CountCars {
+public class CountCarsButton {
 
     private Shell shell;
 
-    public CountCars(Shell shell){
+    public CountCarsButton(Shell shell){
         this.shell = shell;
     }
 
@@ -21,11 +21,11 @@ public class CountCars {
         String tillDate = tillText.getText();
 
         SearchResultTable checkupInfo = new SearchResultTable(shell);
-        CheckupSearch checkupSearch = new CheckupSearch();
+        CarSearch carSearch = new CarSearch(checkupInfo.getTable());
         checkupInfo.createTable(checkupInfo.checkupBetweenInfoTitles);
 
         try {
-            checkupSearch.searchCheckup(checkupInfo.getTable(), fromDate, tillDate);
+            carSearch.searchCheckup(fromDate, tillDate);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

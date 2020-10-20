@@ -8,18 +8,20 @@ import org.eclipse.swt.widgets.Shell;
 
 import java.sql.SQLException;
 
-public class ShowAll {
+public class ShowAllButton {
 
     private Shell shell;
 
-    public ShowAll(Shell shell){
+    public ShowAllButton(Shell shell){
         this.shell = shell;
     }
 
     public void overrideButton (Button driverButton, Button inspectorButton, Button checkupButton){
         if(driverButton.getSelection()){
+
             InfoTable infoTable = new InfoTable(shell, "driver");
             infoTable.drawTable(InfoTable.driverTitles);
+
             DataBase db = new DataBase();
 
             try {
@@ -35,7 +37,7 @@ public class ShowAll {
             infoTable.drawTable(InfoTable.inspectorTitles);
             DataBase db = new DataBase();
 
-            try {
+            try{
                 db.openConnection();
                 infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
                 db.closeConnection();

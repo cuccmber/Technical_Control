@@ -13,13 +13,17 @@ public class DataBase {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public void openConnection() throws SQLException {
+    public Connection openConnection() throws SQLException {
+
 
         // opening database connection to MySQL server
         connection = DriverManager.getConnection(url, user, password);
 
+
         // getting Statement object to execute query
-        statement = connection.createStatement();
+        //statement = connection.createStatement();
+//open only conn
+        return connection;
 
     }
 
