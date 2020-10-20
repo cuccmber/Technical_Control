@@ -9,19 +9,24 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
+import search.SelectionQuery;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DriverInsertionDialog {
-    private Shell parent;
+
     private Shell subShell;
     private InfoTable infoTable;
-
-    private String insertionString = "INSERT INTO driver (carID, engineID, color, brand, technicalPassportID, licenceID, " +
-            "fullName, address, birthday, sex) VALUES (";
+    private PreparedStatement statement;
+    private Connection connection;
+    private String insertionString = "INSERT INTO driver (carID, engineID, color, brand, technicalPassportID," +
+            " licenceID, fullName, address, birthday, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private String showAllDrivers = "SELECT * FROM driver";
 
     public DriverInsertionDialog(Shell parent, InfoTable infoTable) {
-        this.parent = parent;
         subShell = new Shell(parent);
         this.infoTable = infoTable;
 
@@ -33,7 +38,7 @@ public class DriverInsertionDialog {
 
     }
 
-    public void insertDriver(){
+    public void insertDriver() {
 
         Label carIDLabel = new Label(subShell, SWT.NONE);
         carIDLabel.setText("Car ID:");
@@ -83,31 +88,36 @@ public class DriverInsertionDialog {
         insertButton.addSelectionListener(new SelectionAdapter(){
 
             @Override
-            public void widgetSelected(SelectionEvent e){ //add type check?
-
-                insertionString += ("'" + carIDText.getText() + "', '" + engineIDText.getText() + "', '" +
-                        colorText.getText() + "', '" + brandText.getText() + "', '" + passportIDText.getText() +
-                        "', '" + licenceIDText.getText() + "', '" + fullNameText.getText() + "', '" +
-                        addressText.getText() + "', '" + birthdayText.getText() + "', '" + sexCombo.getText() + "');");
+            public void widgetSelected(SelectionEvent e){
 
                 DataBase db = new DataBase();
                 try {
-                    db.openConnection();
-                    db.updateQuery(insertionString);
-                    infoTable.getTable().removeAll();
-                    infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
-                    db.closeConnection();
+                    connection = db.openConnection();
+                    statement = connection.prepareStatement(insertionString);
+
+                    statement.setInt(1, Integer.parseInt(carIDText.getText()));
+                    statement.setInt(2, Integer.parseInt(engineIDText.getText()));
+                    statement.setString(3, colorText.getText());
+                    statement.setString(4, brandText.getText());
+                    statement.setInt(5, Integer.parseInt(passportIDText.getText()));
+                    statement.setInt(6, Integer.parseInt(licenceIDText.getText()));
+                    statement.setString(7, fullNameText.getText());
+                    statement.setString(8, addressText.getText());
+                    statement.setDate(9, Date.valueOf(birthdayText.getText()));
+                    statement.setString(10, sexCombo.getText());
+
+                    statement.executeUpdate();
+
+                    statement.close();
+                    connection.close();
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
 
+                redrawTable();
                 subShell.close();
 
-                //MessageBox box = new MessageBox(parent, SWT.OK);
-                //box.setText("Info");
-                //box.setMessage("A driver has been added successfully!");
-                //box.open();
             }
         });
 
@@ -120,5 +130,16 @@ public class DriverInsertionDialog {
         subShell.setBounds(400, 650, 1030, 180);
         subShell.open();
 
+    }
+
+    public void redrawTable(){
+        infoTable.getTable().removeAll();
+        SelectionQuery query = new SelectionQuery(showAllDrivers);
+        try {
+            infoTable.updateDriverTable(query.show(), infoTable.getTable());
+            query.closeAll();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

@@ -1,16 +1,18 @@
 package window;
 
-import database.DataBase;
-import database.Query;
 import info.InfoTable;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
+import search.SelectionQuery;
 
 import java.sql.SQLException;
 
 public class ShowAllButton {
 
     private Shell shell;
+    private String showAllDrivers = "SELECT * FROM driver";
+    private String showAllInspectors = "SELECT * FROM inspector";
+    private String showAllCheckups = "SELECT * FROM checkup";
 
     public ShowAllButton(Shell shell){
         this.shell = shell;
@@ -21,26 +23,26 @@ public class ShowAllButton {
 
             InfoTable infoTable = new InfoTable(shell, "driver");
             infoTable.drawTable(InfoTable.driverTitles);
-
-            DataBase db = new DataBase();
+            SelectionQuery query = new SelectionQuery(showAllDrivers);
 
             try {
-                db.openConnection();
-                infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
-                db.closeConnection();
+                infoTable.updateDriverTable(query.show(), infoTable.getTable());
+                query.closeAll();
+
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
         else if(inspectorButton.getSelection()){
+
             InfoTable infoTable = new InfoTable(shell, "inspector");
             infoTable.drawTable(InfoTable.inspectorTitles);
-            DataBase db = new DataBase();
+            SelectionQuery query = new SelectionQuery(showAllInspectors);
 
-            try{
-                db.openConnection();
-                infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
-                db.closeConnection();
+            try {
+                infoTable.updateInspectorTable(query.show(), infoTable.getTable());
+                query.closeAll();
+
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -48,12 +50,12 @@ public class ShowAllButton {
         else if(checkupButton.getSelection()){
             InfoTable infoTable = new InfoTable(shell, "checkup");
             infoTable.drawTable(InfoTable.checkupTitles);
-            DataBase db = new DataBase();
+            SelectionQuery query = new SelectionQuery(showAllCheckups);
 
             try {
-                db.openConnection();
-                infoTable.updateCheckupTable(db.selectQuery(Query.showAllCheckups), infoTable.getTable());
-                db.closeConnection();
+                infoTable.updateCheckupTable(query.show(), infoTable.getTable());
+                query.closeAll();
+
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

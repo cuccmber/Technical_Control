@@ -4,37 +4,44 @@ import database.DataBase;
 import database.Query;
 import info.InfoTable;
 import org.eclipse.swt.widgets.Shell;
+import search.SelectionQuery;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class InspectorDeletion {
 
-    private Shell shell;
     private InfoTable infoTable;
-    private DataBase db;
+    private PreparedStatement statement;
+    private Connection connection;
+    private String deleteInspector = "DELETE FROM inspector WHERE inspectorID = ?;";
+    public static String showAllInspectors = "SELECT * FROM inspector";
 
-    public InspectorDeletion(Shell shell, InfoTable infoTable){
-        this.shell = shell;
+
+
+    public InspectorDeletion(InfoTable infoTable){
         this.infoTable = infoTable;
-        db = new DataBase();
     }
 
     public void deleteInspector(String inspectorID) {
 
-        String deletionString = Query.deleteInspector + inspectorID + "');";
+        DataBase db = new DataBase();
 
         try {
-            db.openConnection();
-            db.updateQuery(deletionString);
+            connection = db.openConnection();
+            statement = connection.prepareStatement(deleteInspector);
+
+            statement.setInt(1, Integer.parseInt(inspectorID));
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        //MessageBox box = new MessageBox(shell, SWT.OK);
-        //box.setText("Info");
-        //box.setMessage("An inspector has been deleted successfully!");
-        //box.open();
 
     }
 
@@ -42,12 +49,13 @@ public class InspectorDeletion {
 
         infoTable.getTable().removeAll();
 
-        try {
-            infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
-            db.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        SelectionQuery query = new SelectionQuery(showAllInspectors);
 
+        try {
+            infoTable.updateInspectorTable(query.show(), infoTable.getTable());
+            query.closeAll();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

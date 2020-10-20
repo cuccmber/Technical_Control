@@ -4,38 +4,42 @@ import database.DataBase;
 import database.Query;
 import info.InfoTable;
 import org.eclipse.swt.widgets.Shell;
+import search.SelectionQuery;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DriverDeletion {
 
-    private Shell shell;
     private InfoTable infoTable;
-    private DataBase db;
+    private PreparedStatement statement;
+    private Connection connection;
+    private String deleteDriver = "DELETE FROM driver WHERE technicalPassportID = ?;";
+    private String showAllDrivers = "SELECT * FROM driver";
 
-    public DriverDeletion(Shell shell, InfoTable infoTable){
-        this.shell = shell;
+    public DriverDeletion(InfoTable infoTable){
         this.infoTable = infoTable;
-        db = new DataBase();
-
     }
 
     public void deleteDriver(String passportID){
 
-        String deletionString = Query.deleteDriver + passportID + "');";
+        DataBase db = new DataBase();
 
         try {
-            db.openConnection();
-            db.updateQuery(deletionString);
+            connection = db.openConnection();
+            statement = connection.prepareStatement(deleteDriver);
+
+            statement.setInt(1, Integer.parseInt(passportID));
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        //MessageBox box = new MessageBox(shell, SWT.OK);
-        //box.setText("Info");
-        //box.setMessage("A driver has been deleted successfully!");
-        //box.open();
 
     }
 
@@ -43,12 +47,13 @@ public class DriverDeletion {
 
         infoTable.getTable().removeAll();
 
-        try {
-            infoTable.updateDriverTable(db.selectQuery(Query.showAllDrivers), infoTable.getTable());
-            db.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        SelectionQuery query = new SelectionQuery(showAllDrivers);
 
+        try {
+            infoTable.updateDriverTable(query.show(), infoTable.getTable());
+            query.closeAll();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

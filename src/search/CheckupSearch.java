@@ -39,6 +39,8 @@ public class CheckupSearch {
             item.setText(1, String.valueOf(resultSet.getInt(2)));
         }
 
+        resultSet.close();
+        statement.close();
         connection.close();
     }
 }

@@ -40,6 +40,8 @@ public class InspectorSearch {
             item.setText(2, String.valueOf(resultSet.getInt(3)));
         }
 
+        resultSet.close();
+        statement.close();
         connection.close();
 
     }

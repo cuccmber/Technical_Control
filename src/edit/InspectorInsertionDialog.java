@@ -9,19 +9,23 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
+import search.SelectionQuery;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class InspectorInsertionDialog {
 
-    private Shell parent;
     private Shell subShell;
     private InfoTable infoTable;
-
-    private String insertionString = "INSERT INTO inspector (fullName, inspectorID, post, inspectorRank) VALUES (";
+    private PreparedStatement statement;
+    private Connection connection;
+    private String insertionString = "INSERT INTO inspector (fullName, inspectorID, post, inspectorRank) VALUES (?, ?, ?, ?);";
+    private String showAllInspectors = "SELECT * FROM inspector";
 
     public InspectorInsertionDialog(Shell parent, InfoTable infoTable) {
-        this.parent = parent;
         subShell = new Shell(parent);
         this.infoTable = infoTable;
 
@@ -44,7 +48,6 @@ public class InspectorInsertionDialog {
         Label rankLabel = new Label(subShell, SWT.NONE);
         rankLabel.setText("Rank:");
 
-        //limit text length
         Text fullNameText = new Text(subShell, SWT.NONE);
         fullNameText.setTextLimit(45);
         Text inspectorIDText = new Text(subShell, SWT.NONE);
@@ -59,29 +62,30 @@ public class InspectorInsertionDialog {
         insertButton.addSelectionListener(new SelectionAdapter(){
 
             @Override
-            public void widgetSelected(SelectionEvent e){ //add type check?
-
-                insertionString += ("'" + fullNameText.getText() + "', '" + inspectorIDText.getText() + "', '" +
-                        postText.getText() + "', '" + rankText.getText() + "');");
+            public void widgetSelected(SelectionEvent e){
 
                 DataBase db = new DataBase();
                 try {
-                    db.openConnection();
-                    db.updateQuery(insertionString);
-                    infoTable.getTable().removeAll();
-                    infoTable.updateInspectorTable(db.selectQuery(Query.showAllInspectors), infoTable.getTable());
-                    db.closeConnection();
+                    connection = db.openConnection();
+                    statement = connection.prepareStatement(insertionString);
+
+                    statement.setString(1, fullNameText.getText());
+                    statement.setInt(2, Integer.parseInt(inspectorIDText.getText()));
+                    statement.setString(3, postText.getText());
+                    statement.setString(4, rankText.getText());
+
+                    statement.executeUpdate();
+
+                    statement.close();
+                    connection.close();
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
 
+                redrawTable();
                 subShell.close();
 
-                //MessageBox box = new MessageBox(parent, SWT.OK);
-                //box.setText("Info");
-                //box.setMessage("An inspector has been added successfully!");
-                //box.open();
             }
         });
 
@@ -94,5 +98,16 @@ public class InspectorInsertionDialog {
         subShell.setBounds(650, 650, 500, 180);
         subShell.open();
 
+    }
+
+    public void redrawTable(){
+        infoTable.getTable().removeAll();
+        SelectionQuery query = new SelectionQuery(showAllInspectors);
+        try {
+            infoTable.updateInspectorTable(query.show(), infoTable.getTable());
+            query.closeAll();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

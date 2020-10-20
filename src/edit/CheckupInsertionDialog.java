@@ -9,19 +9,24 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
+import search.SelectionQuery;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CheckupInsertionDialog {
 
-    private Shell parent;
     private Shell subShell;
     private InfoTable infoTable;
+    private PreparedStatement statement;
+    private Connection connection;
+    private String insertionString = "INSERT INTO checkup (checkupDate, result, carID, inspectorID) VALUES (?, ?, ?, ?);";
+    public static String showAllCheckups = "SELECT * FROM checkup";
 
-    private String insertionString = "INSERT INTO checkup (checkupDate, result, carID, inspectorID) VALUES (";
 
     public CheckupInsertionDialog(Shell parent, InfoTable infoTable) {
-        this.parent = parent;
         subShell = new Shell(parent);
         this.infoTable = infoTable;
 
@@ -59,29 +64,30 @@ public class CheckupInsertionDialog {
         insertButton.addSelectionListener(new SelectionAdapter(){
 
             @Override
-            public void widgetSelected(SelectionEvent e){ //add type check?
-
-                insertionString += ("'" + checkupDateText.getText() + "', '" + resultCombo.getText() + "', '" +
-                        carIDText.getText() + "', '" + inspectorIDText.getText() + "');");
+            public void widgetSelected(SelectionEvent e){
 
                 DataBase db = new DataBase();
                 try {
-                    db.openConnection();
-                    db.updateQuery(insertionString);
-                    infoTable.getTable().removeAll();
-                    infoTable.updateCheckupTable(db.selectQuery(Query.showAllCheckups), infoTable.getTable());
-                    db.closeConnection();
+                    connection = db.openConnection();
+                    statement = connection.prepareStatement(insertionString);
+
+                    statement.setDate(1, Date.valueOf(checkupDateText.getText()));
+                    statement.setInt(2, Integer.parseInt(resultCombo.getText()));
+                    statement.setInt(3, Integer.parseInt(carIDText.getText()));
+                    statement.setInt(4, Integer.parseInt(inspectorIDText.getText()));
+
+                    statement.executeUpdate();
+
+                    statement.close();
+                    connection.close();
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
 
+                redrawTable();
                 subShell.close();
 
-                //MessageBox box = new MessageBox(parent, SWT.OK);
-                //box.setText("Info");
-                //box.setMessage("A check up has been added successfully!");
-                //box.open();
             }
         });
 
@@ -94,5 +100,17 @@ public class CheckupInsertionDialog {
         subShell.setBounds(650, 650, 530, 180);
         subShell.open();
 
+    }
+
+    public void redrawTable(){
+
+        infoTable.getTable().removeAll();
+        SelectionQuery query = new SelectionQuery(showAllCheckups);
+        try {
+            infoTable.updateCheckupTable(query.show(), infoTable.getTable());
+            query.closeAll();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

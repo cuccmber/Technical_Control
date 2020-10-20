@@ -95,6 +95,7 @@ public class InfoTable{
 
                     DriverInsertionDialog insertDriverWindow = new DriverInsertionDialog(subShell, getInfoTable());
                     insertDriverWindow.insertDriver();
+
                 }
                 else if (shellTitle == inspectorTitle){
 
@@ -116,16 +117,17 @@ public class InfoTable{
                 if(shellTitle == driverTitle) {
 
                     String passportID = table.getSelection()[0].getText(4);
-                    DriverDeletion driverDeletion = new DriverDeletion(subShell, getInfoTable());
+                    DriverDeletion driverDeletion = new DriverDeletion(getInfoTable());
                     driverDeletion.deleteDriver(passportID);
 
                     DriverInsertionDialog insertWindow = new DriverInsertionDialog(subShell, getInfoTable());
                     insertWindow.insertDriver();
+
                 }
                 else if(shellTitle == inspectorTitle){
 
                     String inspectorID = table.getSelection()[0].getText(1);
-                    InspectorDeletion inspectorDeletion = new InspectorDeletion(subShell, getInfoTable());
+                    InspectorDeletion inspectorDeletion = new InspectorDeletion(getInfoTable());
                     inspectorDeletion.deleteInspector(inspectorID);
 
                     InspectorInsertionDialog insertInspectorWindow = new InspectorInsertionDialog(subShell, getInfoTable());
@@ -135,7 +137,7 @@ public class InfoTable{
 
                     String checkupDate = table.getSelection()[0].getText(0);
                     String carID = table.getSelection()[0].getText(2);
-                    CheckupDeletion checkupDeletion = new CheckupDeletion(subShell, getInfoTable());
+                    CheckupDeletion checkupDeletion = new CheckupDeletion(getInfoTable());
                     checkupDeletion.deleteCheckup(checkupDate, carID);
 
                     CheckupInsertionDialog insertCheckupWindow = new CheckupInsertionDialog(subShell, getInfoTable());
@@ -150,14 +152,14 @@ public class InfoTable{
             public void widgetSelected(SelectionEvent e) {
                 if(shellTitle == driverTitle) {
                     String passportID = table.getSelection()[0].getText(4);
-                    DriverDeletion driverDeletion = new DriverDeletion(subShell, getInfoTable());
+                    DriverDeletion driverDeletion = new DriverDeletion(getInfoTable());
                     driverDeletion.deleteDriver(passportID);
                     driverDeletion.redrawTable();
                 }
                 else if(shellTitle == inspectorTitle){
 
                     String inspectorID = table.getSelection()[0].getText(1);
-                    InspectorDeletion inspectorDeletion = new InspectorDeletion(subShell, getInfoTable());
+                    InspectorDeletion inspectorDeletion = new InspectorDeletion(getInfoTable());
                     inspectorDeletion.deleteInspector(inspectorID);
                     inspectorDeletion.redrawTable();
                 }
@@ -165,7 +167,7 @@ public class InfoTable{
 
                     String checkupDate = table.getSelection()[0].getText(0);
                     String carID = table.getSelection()[0].getText(2);
-                    CheckupDeletion checkupDeletion = new CheckupDeletion(subShell, getInfoTable());
+                    CheckupDeletion checkupDeletion = new CheckupDeletion(getInfoTable());
                     checkupDeletion.deleteCheckup(checkupDate, carID);
                     checkupDeletion.redrawTable();
                 }

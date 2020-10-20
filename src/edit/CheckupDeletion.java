@@ -4,38 +4,45 @@ import database.DataBase;
 import database.Query;
 import info.InfoTable;
 import org.eclipse.swt.widgets.Shell;
+import search.SelectionQuery;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CheckupDeletion {
 
-    Shell shell;
     InfoTable infoTable;
-    DataBase db;
+    private PreparedStatement statement;
+    private Connection connection;
+    public static String deleteCheckup = "DELETE FROM checkup WHERE (checkupDate = ? AND carID = ?);";
+    public static String showAllCheckups = "SELECT * FROM checkup";
 
-    public CheckupDeletion(Shell shell, InfoTable infoTable){
-        this.shell = shell;
+    public CheckupDeletion(InfoTable infoTable){
         this.infoTable = infoTable;
-        db = new DataBase();
 
     }
 
     public void deleteCheckup(String checkupDate, String carID){
 
-        String deletionString = Query.deleteCheckupOne + checkupDate + Query.deleteCheckupTwo + carID + "');";
+        DataBase db = new DataBase();
 
         try {
-            db.openConnection();
-            db.updateQuery(deletionString);
+            connection = db.openConnection();
+            statement = connection.prepareStatement(deleteCheckup);
+
+            statement.setDate(1, Date.valueOf(checkupDate));
+            statement.setInt(2, Integer.parseInt(carID));
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        //MessageBox box = new MessageBox(shell, SWT.OK);
-        //box.setText("Info");
-        //box.setMessage("A check up has been deleted successfully!");
-        //box.open();
 
     }
 
@@ -43,11 +50,13 @@ public class CheckupDeletion {
 
         infoTable.getTable().removeAll();
 
+        SelectionQuery query = new SelectionQuery(showAllCheckups);
+
         try {
-            infoTable.updateCheckupTable(db.selectQuery(Query.showAllCheckups), infoTable.getTable());
-            db.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            infoTable.updateCheckupTable(query.show(), infoTable.getTable());
+            query.closeAll();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 }
